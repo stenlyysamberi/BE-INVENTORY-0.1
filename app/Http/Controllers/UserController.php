@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function users_all(){
-        return User::get();
+        $user = User::all();
+        return response()->json([
+            'status'   => 200,
+            'message'  => 'Data berhasil ditemukan',
+            'data'     => $user
+        ]);
     }
 }
