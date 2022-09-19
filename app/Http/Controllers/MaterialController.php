@@ -13,8 +13,10 @@ class MaterialController extends Controller
         if(count($material)>0){
             return response()->json([
                 'status'   => 200,
+                'message'  => "Data di Temukan",
                 'serial'   => $material[0]->material_res,
                 'nama'     => $material[0]->material_name,
+                'qyt'      => $material[0]->qyt,
                 'create'   => $material[0]->created_at
             ]);
         }else{
