@@ -9,7 +9,7 @@ class MaterialController extends Controller
 {
 
     public function view(){
-        $material   = Material::where('material_res',request()->id)->get();
+        $material   = Material::where('material_res',request()->serial)->get();
         if(count($material)>0){
             return response()->json([
                 'status'   => 200,
