@@ -9,20 +9,21 @@ class MaterialController extends Controller
 {
 
     public function view(){
-        $material = Material::where('material_res',Request()->id)->get();
+        $material   = Material::where('material_res',request()->id)->get();
         if(count($material)>0){
             return response()->json([
                 'status'   => 200,
                 'serial'   => $material[0]->material_res,
-                'nama'     => $material[0]->material_name
+                'nama'     => $material[0]->material_name,
+                'create'   => $material[0]->created_at
             ]);
         }else{
             return response()->json([
                 'status' => 400,
-                'message'  => 'Material belum Terdaftar.'
+                'message'  => 'Data tidak ditemukan.'
             ]);
         }
-        return $material;
+        
     }
 
     public function store(){
