@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function users_all(){
 
-        $total = Material::select('qyt')->get()->count();
+        $total = Material::select('qyt')->get()->sum();
 
         $user = User::all()->all();
         return response()->json([
