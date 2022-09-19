@@ -43,6 +43,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::create([
+            'name' => 'Dani Sadui',
+            'email' => 'dsamberi@fmi.com',
+            'url' => 'https://t4.ftcdn.net/jpg/02/97/24/51/240_F_297245133_gBPfK0h10UM3y7vfoEiBC3ZXt559KZar.jpg',
+            'password' => bcrypt('stenly20')
+        ]);
+
+        User::create([
+            'name' => 'Stenly Samberi',
+            'email' => 'xsamberi@fmi.com',
+            'url' => 'https://t4.ftcdn.net/jpg/02/97/24/51/240_F_297245133_gBPfK0h10UM3y7vfoEiBC3ZXt559KZar.jpg',
+            'password' => bcrypt('stenly20')
+        ]);
+
+        User::create([
             'name' => 'Joice Samberi',
             'email' => 'jsamberi@fmi.com',
             'url' => 'https://img.freepik.com/free-photo/confident-stylish-good-looking-asian-blond-girl-recommend-follow-her-direction-pointing-upper-left-corner-index-finger-smiling-camera-self-assured-white-wall_176420-37766.jpg?size=626&ext=jpg&ga=GA1.2.740021934.1663591078',
