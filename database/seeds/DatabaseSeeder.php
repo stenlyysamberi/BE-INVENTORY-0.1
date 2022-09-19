@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Stenly Samberi',
             'email' => 'xsamberi@fmi.com',
-            'url' => 'https://t4.ftcdn.net/jpg/02/97/24/51/240_F_297245133_gBPfK0h10UM3y7vfoEiBC3ZXt559KZar.jpg',
+            'url' => 'https://t4.ftcdn.net/jpg/01/15/85/23/240_F_115852367_E6iIYA8OxHDmRhjw7kOq4uYe4t440f14.jpg',
             'password' => bcrypt('stenly20')
         ]);
 
