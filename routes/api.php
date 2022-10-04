@@ -24,8 +24,8 @@ Route::group(['middleware' => 'guest'],function(){
     Route::post('/materials',[MaterialController::class,'store'])->name('materials.post');
     Route::post('/material',[MaterialController::class,'view'])->name('materials.get');
 
-    Route::post('/users',[UsersController::class,'create'])->name('users.post');
-    Route::post('/verify',[UsersController::class,'verify'])->name('users.verify');
+    Route::post('/users',[UserController::class,'create'])->name('users.post');
+    Route::post('/verify',[UserController::class,'verify'])->name('users.verify');
     Route::post('/users/{id}/',[UserController::class,'users_id'])->name('users.get.only');
     Route::get('/users',[UserController::class,'users_all'])->name('users.get.all');
 });
