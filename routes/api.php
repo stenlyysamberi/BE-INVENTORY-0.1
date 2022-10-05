@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group(['middleware' => 'guest'],function(){
+Route::group(['middleware' => 'api'],function(){
     Route::post('/materials',[MaterialController::class,'store'])->name('materials.post');
     Route::post('/material',[MaterialController::class,'view'])->name('materials.get');
 
