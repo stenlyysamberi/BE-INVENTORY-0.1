@@ -24,8 +24,9 @@ Route::group(['middleware' => 'api'],function(){
     Route::post('/materials',[MaterialController::class,'store'])->name('materials.post');
     Route::post('/material',[MaterialController::class,'view'])->name('materials.get');
 
-    Route::post('/users',[UserController::class,'create'])->name('users.post');
-    Route::post('/verify',[UserController::class,'verify'])->name('users.verify');
-    Route::post('/users/{id}/',[UserController::class,'users_id'])->name('users.get.only');
-    Route::get('/users',[UserController::class,'users_all'])->name('users.get.all');
+    Route::post('users',[UserController::class,'create'])->name('users.post');
+    Route::post('verify',[UserController::class,'verify'])->name('users.verify');
+    Route::post('login',[UserController::class,'login'])->name('users.login');
+    Route::post('users/{id}/',[UserController::class,'users_id'])->name('users.get.only');
+    Route::get('users',[UserController::class,'users_all'])->name('users.get.all');
 });

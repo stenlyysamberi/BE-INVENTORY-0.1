@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+
+    public function __construct(){
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
     public function users_all(){
 
         $total = Material::select('qyt')->get();
@@ -49,7 +55,22 @@ class UserController extends Controller
     
     }
 
-    public function login(){
+    public function login(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if (!$token = auth()->attempt($validator->validated())) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
 
     }
 }
