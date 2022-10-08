@@ -13,9 +13,9 @@ class UserController extends Controller
 {
 
 
-    public function __construct(){
-        $this->middleware('auth:api', ['except' => ['users.login', 'users.post']]);
-    }
+    // public function __construct(){
+    //     $this->middleware('auth:api', ['except' => ['users.login']]);
+    // }
 
     public function users_all(){
 
@@ -69,11 +69,35 @@ class UserController extends Controller
         }
 
         if (!$token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'ivalid E-mail or password','status' => '401'], 401);
         }
 
         return $this->respondWithToken($token);
       
 
+    }
+
+    public function logout(){
+        auth()->logout();
+        return response()->json(
+            ['message' => 'User successfully logged out.','status'=>'200']
+        );
+    }
+
+    public function refresh(){
+        return $this->respondWithToken(auth());
+    }
+
+    public function profile(){
+        return response()->json(auth()->user());
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            // 'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
     }
 }

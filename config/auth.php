@@ -13,6 +13,11 @@ return [
     |
     */
 
+    // 'defaults' => [
+    //     'guard' => 'web',
+    //     'passwords' => 'users',
+    // ],
+
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
@@ -41,10 +46,12 @@ return [
             'provider' => 'users',
         ],
 
+      
+
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
-            'hash' => false,
+            // 'hash' => false,
         ],
     ],
 

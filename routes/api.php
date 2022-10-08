@@ -20,13 +20,16 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group(['middleware' => 'api'],function(){
+Route::post('login',[UserController::class,'login'])->name('login');
+
+Route::group(['middleware' => 'jwt.verify'],function($router){
     Route::post('/materials',[MaterialController::class,'store'])->name('materials.post');
     Route::post('/material',[MaterialController::class,'view'])->name('materials.get');
 
     Route::post('users',[UserController::class,'create'])->name('users.post');
     Route::post('verify',[UserController::class,'verify'])->name('users.verify');
-    Route::post('login',[UserController::class,'login'])->name('users.login');
+    // Route::post('login',[UserController::class,'login'])->name('login');
     Route::post('users/{id}/',[UserController::class,'users_id'])->name('users.get.only');
     Route::get('users',[UserController::class,'users_all'])->name('users.get.all');
+    Route::post('logout',[UserController::class,'logout'])->name('users.logout');
 });
