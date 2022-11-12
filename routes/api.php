@@ -35,6 +35,6 @@ Route::group(['middleware' => 'jwt.verify'],function($router){
     Route::GET('stock',[MaterialController::class,'stok'])->name('stok');
     Route::POST('stock/search',[MaterialController::class,'search_stok'])->name('search.stok');
     Route::DELETE('stock/del/{id}',[MaterialController::class,'delete_stok'])->name('delete.stok');
-    Route::UPDATE('stock/edit/{id}',[MaterialController::class,'edit_stok'])->name('edit.stok');
+    Route::PUT('stock/edit/{id}',[MaterialController::class,'edit_stok'])->name('edit.stok');
 
 });
