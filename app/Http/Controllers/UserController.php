@@ -36,7 +36,7 @@ class UserController extends Controller
             'nama' => 'required|string|min:2|max:100',
             'company' => 'required|string|min:2|max:100',
             'contact_company' => 'required|string|min:2|max:100',
-            'email' => 'required|string|email|max:100|unique:users',
+            'email' => 'required|string|email|max:100|unique:tbl_employee',
             'level' => 'required|string|max:100|unique:users',
         ]);
 
