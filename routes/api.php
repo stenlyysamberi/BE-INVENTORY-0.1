@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('register',[UserController::class,'register'])->name('register');
+Route::post('   ',[UserController::class,'register'])->name('register');
 Route::post('register/verify',[UserController::class,'register_verify'])->name('register.verify');
 Route::post('login',[UserController::class,'login'])->name('login');
 Route::post('login/verify',[UserController::class,'login_verify'])->name('login.verify');
