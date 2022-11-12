@@ -52,6 +52,7 @@ class UserController extends Controller
                 'company_contact' => $request->input('contact_company'),
                 'email' => $request->input('email'),
                 'level' => $request->input('level'),
+                'img_profil' => $request->input('level'),
                 'token' => Hash::make($token),
             ]);
 
