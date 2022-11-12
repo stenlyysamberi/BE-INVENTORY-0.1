@@ -30,27 +30,33 @@ class UserController extends Controller
         ]);
     }
 
-    public function create( Request $request){
+    public function register( Request $request){
        
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:2|max:100',
+            'nama' => 'required|string|min:2|max:100',
+            'company' => 'required|string|min:2|max:100',
+            'contact_company' => 'required|string|min:2|max:100',
             'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:6',
-            'url' => 'required|string',
+            'level' => 'required|string|max:100|unique:users',
         ]);
 
         if($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
+        $token = 123456;
+
         $user = User::create([
-                'name' => $request->name,
+                'nama' => $request->nama,
+                'company' => $request->company,
+                'company_contact' => $request->company_contact,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'url' => $request->url,
+                'level' => $request->level,
+                'token' => Hash::make($token),
             ]);
 
         return response()->json([
+            'status'  => 200,
             'message' => 'User successfully registered',
             'user' => $user
         ], 201);
