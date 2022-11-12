@@ -30,16 +30,14 @@ class UserController extends Controller
         ]);
     }
 
-    public function register( Request $request){
+    public function register(Request $request){
 
-        return "oo";
-       
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|min:2|max:100',
             'company' => 'required|string|min:2|max:100',
             'contact_company' => 'required|string|min:2|max:100',
             'email' => 'required|string|email|max:100|unique:tbl_employee',
-            'level' => 'required|string|max:100|unique:users',
+            'level' => 'required|string|max:100',
         ]);
 
         if($validator->fails()) {
