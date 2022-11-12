@@ -13,11 +13,12 @@ class CreatePasswordResetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('materials', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->text('material_res');
+        Schema::create('tbl_materials', function (Blueprint $table) {
+            $table->bigIncrements('id_material');
+            $table->string('container',2);
             $table->text('material_name');
-            $table->integer('qyt');
+            $table->integer('total',5);
+            $table->string('uom',5);
             $table->timestamps();
         });
 

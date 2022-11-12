@@ -13,10 +13,13 @@ class CreateFailedJobsTable extends Migration
      */
     public function up()
     {
-        Schema::create('Stoks', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->text('materials_id');
-            $table->text('materials_total');
+        Schema::create('tbl_store', function (Blueprint $table) {
+            $table->bigIncrements('id_store');
+            $table->text('id_material');
+            $table->text('id_employee');
+            $table->text('remark');
+            $table->int('qyt',5);
+            $table->string('status',3);
             $table->timestamps();
         });
     }

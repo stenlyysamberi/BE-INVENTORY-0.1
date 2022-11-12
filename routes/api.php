@@ -16,20 +16,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
+
+Route::post('register',[UserController::class,'register'])->name('register');
+Route::post('register/verify',[UserController::class,'register_verify'])->name('register.verify');
 Route::post('login',[UserController::class,'login'])->name('login');
+Route::post('login/verify',[UserController::class,'login_verify'])->name('login.verify');
 
 Route::group(['middleware' => 'jwt.verify'],function($router){
-    Route::post('/materials',[MaterialController::class,'store'])->name('materials.post');
-    Route::post('/material',[MaterialController::class,'view'])->name('materials.get');
+    
+    Route::GET('all',[MaterialController::class,'getAll'])->name('materials.all');//menampilkan semua material
+    Route::GET('history/{id}',[MaterialController::class,'get_only'])->name('materials.only');//menampilkan 1 material
 
-    Route::post('users',[UserController::class,'create'])->name('users.post');
-    Route::post('verify',[UserController::class,'verify'])->name('users.verify');
-    // Route::post('login',[UserController::class,'login'])->name('login');
-    Route::post('users/{id}/',[UserController::class,'users_id'])->name('users.get.only');
-    Route::get('users',[UserController::class,'users_all'])->name('users.get.all');
-    Route::post('logout',[UserController::class,'logout'])->name('users.logout');
+    Route::GET('profil/{id}',[UserController::class,'profil'])->name('user.only');
+    Route::POST('profil/edit',[UserController::class,'profil_updated'])->name('user.update');
+    Route::post('profil/logout',[UserController::class,'profil_logouted'])->name('user.logout');
+
+    Route::GET('stock',[MaterialController::class,'stok'])->name('stok');
+    Route::POST('stock/search',[MaterialController::class,'search_stok'])->name('search.stok');
+    Route::DELETE('stock/del/{id}',[MaterialController::class,'delete_stok'])->name('delete.stok');
+    Route::UPDATE('stock/edit/{id}',[MaterialController::class,'edit_stok'])->name('edit.stok');
+
 });
