@@ -46,7 +46,9 @@ class UserController extends Controller
 
         $token = 123456;
 
-        $user = User::create([
+
+        $user = User::create(
+            [
                 'nama' => $request->input('nama'),
                 'company' => $request->input('company'),
                 'company_contact' => $request->input('contact_company'),
