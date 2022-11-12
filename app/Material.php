@@ -8,6 +8,6 @@ class Material extends Model
 {
     
     protected $guard = [];
-    protected $tables = "materials";
-    protected $primary ="id";
+    protected $tables = "tbl_materials";
+    protected $primary ="id_material";
 }

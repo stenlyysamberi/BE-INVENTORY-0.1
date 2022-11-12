@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Stok extends Model
 {
     protected $guard = [];
-    protected $tables = "Stoks";
-    protected $primary ="id";
+    protected $tables = "tbl_store";
+    protected $primary ="id_store";
 }
