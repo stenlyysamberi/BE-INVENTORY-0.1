@@ -18,7 +18,7 @@ class CreateFailedJobsTable extends Migration
             $table->int('id_material');
             $table->int('id_employee');
             $table->text('remark');
-            $table->int('qyt',5);
+            $table->integer('qyt',5);
             $table->string('status',3);
 
             $table->foreign('id_material')->references('id_material')->on('tbl_materials');
