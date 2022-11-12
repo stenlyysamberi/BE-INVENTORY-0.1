@@ -18,8 +18,8 @@ class CreateFailedJobsTable extends Migration
             $table->unsignedBigInteger('id_material');
             $table->unsignedBigInteger('id_employee');
             $table->text('remark');
-            $table->integer('qyt',5);
-            $table->string('status',3);
+            $table->integer('qyt');
+            $table->string('status');
 
             // $table->foreign('id_material')->references('id_material')->on('tbl_materials');
             // $table->foreign('id_employee')->references('id_employee')->on('tbl_employee');
