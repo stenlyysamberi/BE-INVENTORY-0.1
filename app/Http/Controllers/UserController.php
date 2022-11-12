@@ -47,11 +47,11 @@ class UserController extends Controller
         $token = 123456;
 
         $user = User::create([
-                'nama' => $request->nama,
-                'company' => $request->company,
-                'company_contact' => $request->company_contact,
-                'email' => $request->email,
-                'level' => $request->level,
+                'nama' => $request->input('nama'),
+                'company' => $request->input('company'),
+                'company_contact' => $request->input('company_contact'),
+                'email' => $request->input('email'),
+                'level' => $request->input('level'),
                 'token' => Hash::make($token),
             ]);
 
