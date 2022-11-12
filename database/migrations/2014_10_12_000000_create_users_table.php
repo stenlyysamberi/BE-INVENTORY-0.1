@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->text('img_profil')->nullable();
             $table->string('status')->nullable();
             $table->string('level');
-            $table->string('token')->nullable();
+            $table->text('token')->nullable();
             $table->timestamps();
         });
     }
