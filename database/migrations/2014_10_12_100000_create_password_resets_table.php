@@ -15,10 +15,10 @@ class CreatePasswordResetsTable extends Migration
     {
         Schema::create('tbl_materials', function (Blueprint $table) {
             $table->bigIncrements('id_material');
-            $table->string('container',2);
+            $table->string('container');
             $table->text('material_name');
-            $table->integer('total',5);
-            $table->string('uom',5);
+            $table->integer('total');
+            $table->string('uom');
             $table->timestamps();
         });
 
