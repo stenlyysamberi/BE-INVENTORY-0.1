@@ -15,11 +15,14 @@ class CreateFailedJobsTable extends Migration
     {
         Schema::create('tbl_store', function (Blueprint $table) {
             $table->bigIncrements('id_store');
-            $table->text('id_material');
-            $table->text('id_employee');
+            $table->int('id_material');
+            $table->int('id_employee');
             $table->text('remark');
             $table->int('qyt',5);
             $table->string('status',3);
+
+            $table->foreign('id_material')->references('id_material')->on('tbl_materials');
+            $table->foreign('id_employee')->references('id_employee')->on('tbl_employee');
             $table->timestamps();
         });
     }
