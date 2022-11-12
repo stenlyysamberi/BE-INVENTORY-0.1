@@ -15,8 +15,8 @@ class CreateFailedJobsTable extends Migration
     {
         Schema::create('tbl_store', function (Blueprint $table) {
             $table->bigIncrements('id_store');
-            $table->int('id_material');
-            $table->int('id_employee');
+            $table->unsignedBigInteger('id_material');
+            $table->unsignedBigInteger('id_employee');
             $table->text('remark');
             $table->integer('qyt',5);
             $table->string('status',3);
