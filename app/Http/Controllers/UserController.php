@@ -32,6 +32,8 @@ class UserController extends Controller
 
     public function register(Request $request){
 
+        return request();
+
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|min:2|max:100',
             'company' => 'required|string|min:2|max:100',
