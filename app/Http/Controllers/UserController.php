@@ -46,29 +46,29 @@ class UserController extends Controller
 
         $token = 123456;
 
-        $user = new User();
-        $user->nama = $request->input('nama');
-        $user->company = $request->input('company');
-        $user->company_contact = $request->input('contact_company');
-        $user->email = $request->input('email');
-        $user->level = $request->input('level');
-        $user->img_profil = $request->input('level');
-        $user->status = $request->input('level');
-        $user->token = Hash::make($token);
-        $user->save();
+        // $user = new User();
+        // $user->nama = $request->input('nama');
+        // $user->company = $request->input('company');
+        // $user->company_contact = $request->input('contact_company');
+        // $user->email = $request->input('email');
+        // $user->level = $request->input('level');
+        // $user->img_profil = $request->input('level');
+        // $user->status = $request->input('level');
+        // $user->token = Hash::make($token);
+        // $user->save();
 
 
-        // $user = User::create(
-        //     [
-        //         'nama' => $request->input('nama'),
-        //         'company' => $request->input('company'),
-        //         'company_contact' => $request->input('contact_company'),
-        //         'email' => $request->input('email'),
-        //         'level' => $request->input('level'),
-        //         'img_profil' => $request->input('level'),
-        //         'status' => $request->input('level'),
-        //         'token' => Hash::make($token),
-        //     ]);
+        $user = User::create(
+            [
+                'nama' => $request->input('nama'),
+                'company' => $request->input('company'),
+                'company_contact' => $request->input('contact_company'),
+                'email' => $request->input('email'),
+                'level' => $request->input('level'),
+                'img_profil' => $request->input('level'),
+                'status' => $request->input('level'),
+                'token' => Hash::make($token),
+            ]);
 
         return response()->json([
             'status'  => 200,
