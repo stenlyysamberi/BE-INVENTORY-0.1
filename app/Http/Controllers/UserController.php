@@ -49,12 +49,13 @@ class UserController extends Controller
 
         $user = User::create(
             [
-                'nama' => $request->nama,
+                'nama' => $request->input('nama'),
                 'company' => $request->input('company'),
                 'company_contact' => $request->input('contact_company'),
                 'email' => $request->input('email'),
                 'level' => $request->input('level'),
                 'img_profil' => $request->input('level'),
+                'status' => $request->input('level'),
                 'token' => Hash::make($token),
             ]);
 
