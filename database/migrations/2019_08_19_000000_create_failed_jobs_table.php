@@ -22,7 +22,7 @@ class CreateFailedJobsTable extends Migration
             $table->string('status');
 
             $table->foreign('id_material')->references('id_material')->on('tbl_materials');
-            $table->foreign('id_employee')->references('id_employee')->on('tbl_employee');
+            $table->foreign('id_employee')->references('id_employee')->on('users');
             $table->timestamps();
         });
     }
