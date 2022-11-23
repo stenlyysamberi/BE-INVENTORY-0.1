@@ -13,12 +13,12 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_employee', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id_employee');
             $table->string('nama');
             $table->string('company');
             $table->string('company_contact');
-            $table->text('email');
+            $table->string('email')->unique();
             $table->text('img_profil')->nullable();
             $table->string('status')->nullable();
             $table->string('level');
@@ -34,6 +34,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_employee');
+        Schema::dropIfExists('users');
     }
 }

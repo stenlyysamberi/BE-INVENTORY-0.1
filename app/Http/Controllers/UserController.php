@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-
+use App\Mail\MailSend;
+use Illuminate\Support\Facades\Mail;
 use App\Material;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -36,7 +38,7 @@ class UserController extends Controller
             'nama' => 'required|string|min:2|max:100',
             'company' => 'required|string|min:2|max:100',
             'contact_company' => 'required|string|min:2|max:100',
-            'email' => 'required|string|email|max:100|unique:tbl_employee',
+            'email' => 'required|string|email|max:100|unique:users',
             'level' => 'required|string|max:100',
         ]);
 
@@ -44,20 +46,7 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $token = 123456;
-
-        // $user = new User();
-        // $user->nama = $request->input('nama');
-        // $user->company = $request->input('company');
-        // $user->company_contact = $request->input('contact_company');
-        // $user->email = $request->input('email');
-        // $user->level = $request->input('level');
-        // $user->img_profil = $request->input('level');
-        // $user->status = $request->input('level');
-        // $user->token = Hash::make($token);
-        // $user->save();
-
-
+        $token = Str::random(4);
         $user = User::create(
             [
                 'nama' => $request->input('nama'),
@@ -65,10 +54,22 @@ class UserController extends Controller
                 'company_contact' => $request->input('contact_company'),
                 'email' => $request->input('email'),
                 'level' => $request->input('level'),
-                'img_profil' => $request->input('level'),
-                'status' => $request->input('level'),
+                'img_profil' => "cocacola.jpg",
+                'status' => true,
                 'token' => Hash::make($token),
             ]);
+
+            $details = [
+                'token' => $token,
+                'nama'  => $request->nama,
+            ];
+
+            Mail::to($request->email)->send(new MailSend($details));
+            // Mail::send(['text'=>'emails.token'],['name','Ripon Uddin Arman'],function($message){
+            //     $message->to(request('email'))->subject("Email Testing with Laravel");
+            //     $message->from('stenly.samberi@outlook.co.id','Creative Losser Hopeless Genius');
+            // });
+            
 
         return response()->json([
             'status'  => 200,
