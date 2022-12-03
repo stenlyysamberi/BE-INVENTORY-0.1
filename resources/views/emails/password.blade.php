@@ -8,9 +8,8 @@
 </head>
 <body>
    
-    <h3>Konfirmasi email</h3>
-    <p>Hi, <b>{{ $details['nama'] }}</b>  Terima kasih telah melakukan pendaftaran. 
-        Silakan menggunakan kode verifikasi berikut untuk mengkonfirmasi email anda. <b>{{ $details['token'] }}</b></p>
+    <h3>Konfirmasi E-mail Successfully</h3>
+    <p>Gunakan, <b>{{ $details['email'] }}</b> & Password <b>{{ $details['password'] }}</b> Unutk login.</p>
 
     <p>Salam, <br><b>Dispatcher</b></p>
 </body>

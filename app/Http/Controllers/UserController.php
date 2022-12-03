@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\MailSend;
+use App\Mail\MailPassword;
 use Illuminate\Support\Facades\Mail;
 use App\Material;
 use App\User;
@@ -39,24 +40,24 @@ class UserController extends Controller
             'company' => 'required|string|min:2|max:100',
             'contact_company' => 'required|string|min:2|max:100',
             'email' => 'required|string|email|max:100|unique:users',
-            'level' => 'required|string|max:100',
         ]);
 
         if($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        $token = Str::random(4);
+        $token = Str::random(6);
         $user = User::create(
             [
                 'nama' => $request->input('nama'),
                 'company' => $request->input('company'),
                 'company_contact' => $request->input('contact_company'),
                 'email' => $request->input('email'),
-                'level' => $request->input('level'),
                 'img_profil' => "cocacola.jpg",
-                'status' => true,
-                'token' => Hash::make($token),
+                'status' => false,
+                'level' => "employee",
+                'token' => $token,
+                'password' => false
             ]);
 
             $details = [
@@ -65,8 +66,8 @@ class UserController extends Controller
             ];
 
             Mail::to($request->email)->send(new MailSend($details));
-            // Mail::send(['text'=>'emails.token'],['name','Ripon Uddin Arman'],function($message){
-            //     $message->to(request('email'))->subject("Email Testing with Laravel");
+            // Mail::send(['text'=>'emails.notif'],['name','Ripon Uddin Arman'],function($message){
+            //     $message->to('stenly.samberi@outlook.co.id')->subject("Email Testing with Laravel");
             //     $message->from('stenly.samberi@outlook.co.id','Creative Losser Hopeless Genius');
             // });
             
@@ -74,8 +75,7 @@ class UserController extends Controller
         return response()->json([
             'status'  => 200,
             'message' => 'User successfully registered',
-            'user' => $user
-        ], 201);
+        ], 200);
     
     }
 
@@ -83,7 +83,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:4',
         ]);
 
         if ($validator->fails()) {
@@ -91,12 +91,42 @@ class UserController extends Controller
         }
 
         if (!$token = auth()->attempt($validator->validated())) {
-            return response()->json(['message' => 'ivalid E-mail or password','status' => '401'], 401);
+            return response()->json(['message' => 'incorect E-mail & Password','status' => '401'], 200);
         }
 
         return $this->respondWithToken($token);
       
 
+    }
+
+    public function register_verify(){
+        
+        $users = User::where([['email','=', request('email')],['token','=',request('token')]])->get();
+
+        if(count($users)>0){
+            $password = Str::random(6);
+            User::where('email',request()->email)->update([
+                    'status'=> true,
+                    'password' => Hash::make($password)
+                    ]);
+
+                    $details = [
+                        'password' => $password,
+                        'email'  => request('email'),
+                    ];
+        
+                    Mail::to(request()->email)->send(new MailPassword($details));
+
+           return response()->json([
+            'status' => 200,
+            'message'  => 'E-email is verify.'
+        ]);
+        }else{
+            return response()->json([
+                'status' => 400,
+                'message'  => 'Token failed.'
+            ]);
+        }
     }
 
     public function logout(){
@@ -119,6 +149,8 @@ class UserController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'status' => 200
+
             // 'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }

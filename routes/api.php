@@ -23,6 +23,16 @@ Route::post('register/verify',[UserController::class,'register_verify'])->name('
 Route::post('login',[UserController::class,'login'])->name('login');
 Route::post('login/verify',[UserController::class,'login_verify'])->name('login.verify');
 
+Route::GET('beranda/all',[MaterialController::class,'beranda'])->name('beranda.all');
+
+
+Route::POST('store',[MaterialController::class,'store'])->name('created.stok');//Menambahakan Data Baru
+Route::GET('stock/all',[MaterialController::class,'viewAll'])->name('stok.all');
+Route::POST('stock/search',[MaterialController::class,'view'])->name('search.stok');
+Route::POST('stock/add',[MaterialController::class,'tamba_qty'])->name('tamba_qty');//Menambahkan Stok Material
+Route::DELETE('stock/del',[MaterialController::class,'delete_stok'])->name('delete.stok');
+Route::PUT('stock/edit',[MaterialController::class,'edit_stok'])->name('edit.stok');
+
 Route::group(['middleware' => 'jwt.verify'],function($router){
     
     Route::GET('all',[MaterialController::class,'getAll'])->name('materials.all');//menampilkan semua material
@@ -32,9 +42,9 @@ Route::group(['middleware' => 'jwt.verify'],function($router){
     Route::POST('profil/edit',[UserController::class,'profil_updated'])->name('user.update');
     Route::post('profil/logout',[UserController::class,'profil_logouted'])->name('user.logout');
 
-    Route::GET('stock',[MaterialController::class,'stok'])->name('stok');
-    Route::POST('stock/search',[MaterialController::class,'search_stok'])->name('search.stok');
-    Route::DELETE('stock/del/{id}',[MaterialController::class,'delete_stok'])->name('delete.stok');
-    Route::PUT('stock/edit/{id}',[MaterialController::class,'edit_stok'])->name('edit.stok');
+    // Route::POST('stock',[MaterialController::class,'view'])->name('stok');
+    // Route::POST('store',[MaterialController::class,'store'])->name('created.stok');
+    // Route::POST('stock/search',[MaterialController::class,'search_stok'])->name('search.stok');
+    
 
 });

@@ -13,11 +13,12 @@ class CreatePasswordResetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_materials', function (Blueprint $table) {
+        Schema::create('materials', function (Blueprint $table) {
             $table->bigIncrements('id_material');
-            $table->string('container');
             $table->text('material_name');
-            $table->integer('total');
+            $table->text('material_number');
+            $table->text('file');
+            $table->string('container');
             $table->string('uom');
             $table->timestamps();
         });
@@ -32,6 +33,6 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_materials');
+        Schema::dropIfExists('materials');
     }
 }

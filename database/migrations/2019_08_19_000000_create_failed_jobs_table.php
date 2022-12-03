@@ -13,16 +13,16 @@ class CreateFailedJobsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_stores', function (Blueprint $table) {
+        Schema::create('stoks', function (Blueprint $table) {
             $table->bigIncrements('id_store');
             $table->unsignedBigInteger('id_material');
             $table->unsignedBigInteger('id_employee');
             $table->text('remark');
-            $table->integer('qyt');
+            $table->string('total');
             $table->string('status');
 
-            $table->foreign('id_material')->references('id_material')->on('tbl_materials');
-            $table->foreign('id_employee')->references('id_employee')->on('users');
+            $table->foreign('id_material')->references('id_material')->on('materials')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_employee')->references('id_employee')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
