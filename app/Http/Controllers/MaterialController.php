@@ -25,23 +25,23 @@ class MaterialController extends Controller
     }
 
 
-    public function view(){
-        $material   = Material::where('material_number',request()->material_number)->get();
-        if(count($material)>0){
-            return response()->json([
-                'status'   => 200,
-                'message'  => "Data di Temukan",
-                'material_name'       => $material[0]->material_name,
-                'material_number'     => $material[0]->material_number,
-                'container'           => $material[0]->container,
-                'file'                => $material[0]->file,
-                'total'               => $material[0]->total,
-                'uom'                 => $material[0]->uom
-            ]);
+    public function viewOnly(){
+        $stoks   = Stok::where('id_material',request()->id_material)->get();
+        if(count($stoks)>0){
+        //return  Material::material_only(request('material_number'))->get();
+        return Material::material_only(request('id_material'));
         }else{
+            $material   = Material::where('id_material',request()->id_material)->get();
             return response()->json([
-                'status' => 400,
-                'message'  => 'Data tidak ditemukan.'
+              "id_material" => $material[0]->id_material,
+              "material_name" => $material[0]->material_name,
+              "material_number" => $material[0]->material_number,
+              "file" => $material[0]->file,
+              "container" => $material[0]->container,
+              "uom" => $material[0]->uom,
+              "total" => $material[0]->total,
+              "created_at" => $material[0]->created_at,
+              "updated_at" => $material[0]->updated_at,
             ]);
         }
         
@@ -76,6 +76,7 @@ class MaterialController extends Controller
                 'material_name' => request()->input('material_name'),
                 'material_number' => request()->input('material_number'),
                 'file' => $imageName,
+                'total' => 0,
                 'container' => request()->input('container'),
                 'uom' => request()->input('oum')
             ]);
@@ -93,50 +94,6 @@ class MaterialController extends Controller
                     'message'  => 'error to saved.'
                 ]);
             }
-
-           
-
-            // request()->validate([
-            //     'material_name' => 'required',
-            //     'material_number' => 'required',
-            //     'container' => 'required',
-            //     'file' => 'image|file|max:2024|base64',
-            //     'uom' => 'required'
-            // ]);
-        
-
-          
-
-           
-
-            // if(request()->hasFile('file')){
-            // $filename = round(microtime(true)*1000).'-'.str_replace(' ' ,'-',request()->file('file')->getClientOriginalName());
-            // request()->file('file')->move(public_path('image'),$filename);
-            
-            //     $save = Material::create([
-            //         'material_name' => request()->material_name,
-            //         'material_number' => request()->material_number,
-            //         'container' => request()->container,
-            //         'file' => $filename,
-            //         'uom' => request()->uom
-            //     ]);
-
-            //     if ($save) {
-            //         return response()->json([
-            //             'status' => 200,
-            //             'message'  => 'Data has been successfully'
-            //         ]);
-            //     }else{
-            //         return response()->json([
-            //             'status' => 401,
-            //             'message'  => 'Data failed'
-            //         ]);
-            //     }
-                
-            // }
-            
-           
-            
 
         }
     }

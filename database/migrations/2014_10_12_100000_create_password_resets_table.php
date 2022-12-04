@@ -19,6 +19,7 @@ class CreatePasswordResetsTable extends Migration
             $table->text('material_number');
             $table->text('file');
             $table->string('container');
+            $table->string('total');
             $table->string('uom');
             $table->timestamps();
         });

@@ -15,10 +15,14 @@ class Stok extends Model
     protected $primary ="id_store";
 
     static function activity_weeks(){
+        $a = date('Y-m-d');
+        $b = date('Y-m-d',strtotime('+7 days'));
+        $range = [$a, $b];
+        // ->where('stoks.id_material',2)
 
         $activity = DB::table('stoks')
             ->join('materials','stoks.id_material','=','materials.id_material')
-            ->where('stoks.id_material',3)
+            ->whereBetween('stoks.created_at',$range)->orderBy('stoks.created_at','asc')
             ->select('materials.material_name','materials.file','materials.container','materials.uom','stoks.total','stoks.created_at');
         return $activity;
     }
