@@ -18,7 +18,7 @@ class Stok extends Model
 
         $activity = DB::table('stoks')
             ->join('materials','stoks.id_material','=','materials.id_material')
-            ->where('stoks.id_material',5)
+            ->where('stoks.id_material',3)
             ->select('materials.material_name','materials.file','materials.container','materials.uom','stoks.total','stoks.created_at');
         return $activity;
     }
@@ -26,7 +26,7 @@ class Stok extends Model
     static function Total(){
         $in=Stok::where('status','=','In')->sum('total');
         $out=Stok::where('status','=','Out')->sum('total');
-        $total = $in - $out;
+        $total = abs($in-$out);
         return $total;
     }
 

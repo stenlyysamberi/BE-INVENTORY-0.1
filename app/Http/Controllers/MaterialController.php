@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Str;
 use App\Material;
 use App\Stok;
 use App\User;
@@ -56,6 +56,7 @@ class MaterialController extends Controller
     }
 
     public function store(){
+
         $check = Material::where('material_number',request()->material_number)->count();
         if($check>0){
             return response()->json([
@@ -64,39 +65,78 @@ class MaterialController extends Controller
             ]);
         }else{
 
-            request()->validate([
-                'material_name' => 'required',
-                'material_number' => 'required',
-                'container' => 'required',
-                'file' => 'image|file|max:2024',
-                'uom' => 'required'
+            $image = request('file');  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(20).'.'.'png';
+            File::put(public_path('image/') . $imageName, base64_decode($image));
+
+
+            $bank = Material::create([
+                'material_name' => request()->input('material_name'),
+                'material_number' => request()->input('material_number'),
+                'file' => $imageName,
+                'container' => request()->input('container'),
+                'uom' => request()->input('oum')
             ]);
-           
-            if(request()->hasFile('file')){
-                $filename = round(microtime(true)*1000).'-'.str_replace(' ' ,'-',request()->file('file')->getClientOriginalName());
-                request()->file('file')->move(public_path('image'),$filename);
 
-                $save = Material::create([
-                    'material_name' => request()->material_name,
-                    'material_number' => request()->material_number,
-                    'container' => request()->container,
-                    'file' => $filename,
-                    'uom' => request()->uom
+
+            if ($bank) {
+                return response()->json([
+                    'status' => 200,
+                    'message'  => 'Saved'
+                    
                 ]);
+            }else{
+                return response()->json([
+                    'status' => 100,
+                    'message'  => 'error to saved.'
+                ]);
+            }
 
-                if ($save) {
-                    return response()->json([
-                        'status' => 200,
-                        'message'  => 'Data has been successfully'
-                    ]);
-                }else{
-                    return response()->json([
-                        'status' => 401,
-                        'message'  => 'Data failed'
-                    ]);
-                }
+           
+
+            // request()->validate([
+            //     'material_name' => 'required',
+            //     'material_number' => 'required',
+            //     'container' => 'required',
+            //     'file' => 'image|file|max:2024|base64',
+            //     'uom' => 'required'
+            // ]);
+        
+
+          
+
+           
+
+            // if(request()->hasFile('file')){
+            // $filename = round(microtime(true)*1000).'-'.str_replace(' ' ,'-',request()->file('file')->getClientOriginalName());
+            // request()->file('file')->move(public_path('image'),$filename);
+            
+            //     $save = Material::create([
+            //         'material_name' => request()->material_name,
+            //         'material_number' => request()->material_number,
+            //         'container' => request()->container,
+            //         'file' => $filename,
+            //         'uom' => request()->uom
+            //     ]);
+
+            //     if ($save) {
+            //         return response()->json([
+            //             'status' => 200,
+            //             'message'  => 'Data has been successfully'
+            //         ]);
+            //     }else{
+            //         return response()->json([
+            //             'status' => 401,
+            //             'message'  => 'Data failed'
+            //         ]);
+            //     }
                 
-            }            
+            // }
+            
+           
+            
 
         }
     }
