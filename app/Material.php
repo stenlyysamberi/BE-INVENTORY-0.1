@@ -35,4 +35,26 @@ class Material extends Model
         ]);
         
     }
+
+    static function searchBy_key($key){
+        $cari = DB::table('stoks')
+        ->join('materials','stoks.id_material','=','materials.id_material')
+        ->where('materials.material_name',$key)
+        ->select('materials.material_number','materials.material_name','materials.file',
+        'materials.container','materials.uom','stoks.total','stoks.status',
+        'stoks.created_at')->get(); 
+
+        return $cari;
+    }
+
+    static function summery($id){
+        $summery = DB::table('stoks')
+        ->join('materials','stoks.id_material','=','materials.id_material')
+        ->join('users','stoks.id_employee','=','users.id_employee')
+        ->where('stoks.id_employee',$id)
+        ->select('materials.material_number','materials.material_name','materials.file',
+        'materials.container','materials.uom','stoks.total','stoks.status',
+        'stoks.created_at','users.nama')->get(); 
+        return $summery;
+    }
 }

@@ -24,7 +24,6 @@ class MaterialController extends Controller
         ]);
     }
 
-
     public function viewOnly(){
         $stoks   = Stok::where('id_material',request()->id_material)->get();
         if(count($stoks)>0){
@@ -48,8 +47,12 @@ class MaterialController extends Controller
     }
 
     public function viewAll(){
-        $material = Material::all();
-       
+
+        if(request('keyword')!=null){
+            $material= Material::searchBy_key(request('keyword'));
+        }else{
+            $material = Material::all();
+        }
         return response()->json([
             'Viewall' => $material
         ]);
@@ -127,20 +130,10 @@ class MaterialController extends Controller
             'uom' => 'required'
        ];
 
-    //    return request();
-
        $cek = $request->validate($put);     
-    //    if($request->file('file')!=null){
-    //         $stok = Material::where([['material_number','=', request('material_number')]])->get();
-    //         unlink(public_path('image/'.$stok[0]->file));
-
-    //         $filename = round(microtime(true)*1000).'-'.str_replace(' ' ,'-',request()->file('file')->getClientOriginalName());
-    //         request()->file('file')->move(public_path('image'),$filename);
-    //     }
-
         Material::where('material_number',$request->material_number)->update($cek);
         return response()->json([
-            'result'   => '2000',
+            'result'   => '200',
             'message'  => 'Data has been updated'
         ]);
     }
@@ -167,5 +160,16 @@ class MaterialController extends Controller
 
         
         
+    }
+
+    public function summery(){
+        $summery = Material::summery(request('id_employee'));
+        if (count($summery)<1) {
+            return response()->json(['result'=>400,'message'=>'Belum ada activity']);
+        }else{
+           return response()->json([
+            'summery' => $summery
+           ]);
+        }
     }
 }

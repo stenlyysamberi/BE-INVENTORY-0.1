@@ -16,7 +16,7 @@ class Stok extends Model
 
     static function activity_weeks(){
         $a = date('Y-m-d');
-        $b = date('Y-m-d',strtotime('+7 days'));
+        $b = date('Y-m-d',strtotime('+2 days'));
         $range = [$a, $b];
         // ->where('stoks.id_material',2)
 
