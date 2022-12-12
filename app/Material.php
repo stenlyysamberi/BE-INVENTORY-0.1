@@ -16,7 +16,7 @@ class Material extends Model
 
         $In = Stok::where([['status','=', 'In'],['id_material','=', $code]])->sum('total');
         $Out = Stok::where([['status','=', 'Out'],['id_material','=', $code]])->sum('total');
-        $total = abs($Out-$In);
+        $total = abs($In-$Out);
 
         $only = DB::table('stoks')
         ->join('materials','stoks.id_material','=','materials.id_material')
@@ -56,5 +56,30 @@ class Material extends Model
         'materials.container','materials.uom','stoks.total','stoks.status',
         'stoks.created_at','users.nama')->get(); 
         return $summery;
+    }
+
+    static function material_out($code){
+
+        $In = Stok::where([['status','=', 'In'],['id_material','=', $code]])->sum('total');
+        $Out = Stok::where([['status','=', 'Out'],['id_material','=', $code]])->sum('total');
+        $total = abs($Out-$In);
+
+        $only = DB::table('stoks')
+        ->join('materials','stoks.id_material','=','materials.id_material')
+        ->where('stoks.id_material',$code)
+        ->where('stoks.status','In')
+        ->select('materials.material_number','materials.material_name','materials.file',
+        'materials.container','materials.uom','materials.id_material','stoks.total','stoks.status',
+        'stoks.created_at')->get();
+        
+        return response()->json([
+            "file" => $only[0]->file,
+            'id_material' => $only[0]->id_material,
+            'material_number' => $only[0]->material_number,
+            'material_name' => $only[0]->material_name,
+            'container' => $only[0]->container,
+            'uom' => $only[0]->uom,
+            'total' => $total
+        ]);
     }
 }

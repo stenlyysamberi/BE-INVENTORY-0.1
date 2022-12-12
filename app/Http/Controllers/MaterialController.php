@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Mail\MailBarangMasuk;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Material;
 use App\Stok;
 use App\User;
+use DateTime;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
@@ -44,6 +48,31 @@ class MaterialController extends Controller
             ]);
         }
         
+    }
+
+    public function material_out(){//Menampilkan data material yang akan dikeluarkan
+                                    //dari container
+        $material = Material::where('material_number',request()->id_material)->get();//data yang di requst berupa serial produk dari apps.
+
+        //return $material[0]->id_material;
+        $stoks   = Stok::where('id_material',$material[0]->id_material)->get();
+        if(count($stoks)>0){
+        //return  Material::material_only(request('material_number'))->get();
+        return Material::material_out($material[0]->id_material);
+        }else{
+            $material   = Material::where('id_material',$material[0]->id_material)->get();
+            return response()->json([
+              "id_material" => $material[0]->id_material,
+              "material_name" => $material[0]->material_name,
+              "material_number" => $material[0]->material_number,
+              "file" => $material[0]->file,
+              "container" => $material[0]->container,
+              "uom" => $material[0]->uom,
+              "total" => $material[0]->total,
+              "created_at" => $material[0]->created_at,
+              "updated_at" => $material[0]->updated_at,
+            ]);
+        }
     }
 
     public function viewAll(){
@@ -113,6 +142,40 @@ class MaterialController extends Controller
 
         if ($qyt) {
             # code...
+           
+            $email = Material::where('id_material',request()->id_material)->get();
+            $send  = User::select('email')->get();//mengambil data email unutk.
+           
+            $details = [
+                'nama' => $email[0]->material_name,
+                'number'  => $email[0]->material_number,
+                'container' => $email[0]->container,
+                'uom' => $email[0]->uom,
+                'total' => request('total'),
+                'date' => Carbon::now()
+            ];
+
+            Mail::to($send)->send(new MailBarangMasuk($details));
+            return response()->json(["status" => 200,"message"=>"Data has been successfully"]);
+        } else {
+            # code...
+            return response()->json(["status" => 400,"message"=>"Data has been failed"]);
+        }
+        
+    }
+
+    public function kurang_qty(){
+        
+        $qyt = Stok::create([
+            'id_material' => request()->id_material,
+            'id_employee' => request()->id_employee,
+            'remark' => request()->remark,
+            'total' => request()->total,
+            'status' => request()->status
+        ]);
+
+        if ($qyt) {
+            # code...
             return response()->json(["status" => 200,"message"=>"Data has been successfully"]);
         } else {
             # code...
@@ -162,7 +225,7 @@ class MaterialController extends Controller
         
     }
 
-    public function summery(){
+    public function summery(){//Menampilkan activity karyawaan baik input/output material
         $summery = Material::summery(request('id_employee'));
         if (count($summery)<1) {
             return response()->json(['result'=>400,'message'=>'Belum ada activity']);

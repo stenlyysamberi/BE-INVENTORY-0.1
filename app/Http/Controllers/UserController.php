@@ -94,9 +94,28 @@ class UserController extends Controller
             return response()->json(['message' => 'incorect E-mail & Password','status' => '401'], 200);
         }
 
-        return $this->respondWithToken($token);
+        $data = User::where([['email','=', request('email')]])->get();
+       
+        return $this->respondWithToken($token,$data[0]->id_employee);
       
 
+    }
+
+    public function profile_get(){
+        $data = User::where([['id_employee','=', request('email')]])->get();
+        if(count($data)>0){
+            return response()->json([
+                'result' => 200,
+                'message' => "successfully",
+                'id_employee' => $data[0]->id_employee,
+                'nama' => $data[0]->nama,
+                'company' => $data[0]->company,
+                'company_contact' => $data[0]->company_contact,
+                'email' => $data[0]->email
+            ]);
+        }else{
+            return (['result' => 400,'message' => 'Data not found']);
+        }
     }
 
     public function register_verify(){
@@ -144,14 +163,13 @@ class UserController extends Controller
         return response()->json(auth()->user());
     }
 
-    protected function respondWithToken($token)
-    {
+    protected function respondWithToken($token,$id){
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'status' => 200
-
-            // 'expires_in' => auth('api')->factory()->getTTL() * 60
+            'status' => 200,
+            'email' =>$id
+            //'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }
 }
